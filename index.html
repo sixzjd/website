@@ -790,9 +790,9 @@
         支持 GUI 地图界面和 CLI 命令行两种操作方式。
     </p>
     <div class="hero-actions">
-        <a href="#" id="heroDownload" class="btn btn-primary" download>
+        <a href="#install" class="btn btn-primary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span id="heroDownloadText">下载应用</span>
+            <span id="heroDownloadText">下载安装</span>
         </a>
         <a href="https://github.com/sixzjd/fakeGPS-for-iPhone" target="_blank" class="btn btn-secondary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
@@ -940,17 +940,17 @@
                         <span class="tab-icon">📦</span>
                         <div><strong>npm</strong><br><small style="color:var(--text-secondary)">推荐 · 跨平台</small></div>
                     </button>
+                    <button class="install-tab" onclick="switchTab('download')">
+                        <span class="tab-icon">💾</span>
+                        <div><strong>直接下载</strong><br><small style="color:var(--text-secondary)">macOS / Windows</small></div>
+                    </button>
                     <button class="install-tab" onclick="switchTab('pip')">
                         <span class="tab-icon">🐍</span>
                         <div><strong>pip</strong><br><small style="color:var(--text-secondary)">Python 用户</small></div>
                     </button>
-                    <button class="install-tab" onclick="switchTab('brew')">
-                        <span class="tab-icon">🍺</span>
-                        <div><strong>Homebrew</strong><br><small style="color:var(--text-secondary)">macOS 原生</small></div>
-                    </button>
-                    <button class="install-tab" onclick="switchTab('download')">
-                        <span class="tab-icon">💾</span>
-                        <div><strong>下载应用</strong><br><small style="color:var(--text-secondary)">macOS / Windows</small></div>
+                    <button class="install-tab" onclick="switchTab('github')">
+                        <span class="tab-icon">🐙</span>
+                        <div><strong>GitHub</strong><br><small style="color:var(--text-secondary)">源码运行</small></div>
                     </button>
                 </div>
             </div>
@@ -970,6 +970,16 @@
                             <div>&nbsp;</div>
                             <div><span class="comment"># macOS 启动 .app · Windows 启动 .exe</span></div>
                         </div>
+                        <div id="panel-download" class="code-panel">
+                            <div><span class="comment"># 选择你的平台，点击下载</span></div>
+                            <div>&nbsp;</div>
+                            <div>🍎 <a href="https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest/download/FakeGPS-macOS.zip" style="color:var(--accent-light);text-decoration:underline" download>macOS (.app.zip)</a></div>
+                            <div>🪟 <a href="https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest/download/FakeGPS-Windows.zip" style="color:var(--accent-light);text-decoration:underline" download>Windows (.exe.zip)</a></div>
+                            <div>&nbsp;</div>
+                            <div><span class="comment"># Windows 用户注意：</span></div>
+                            <div><span class="comment"># 需安装 Apple Devices 应用</span></div>
+                            <div><span class="comment"># 并以管理员身份运行 tunnel</span></div>
+                        </div>
                         <div id="panel-pip" class="code-panel">
                             <div><span class="comment"># 安装核心包</span></div>
                             <div><span class="cmd">pip</span> install <span class="str">fakegps</span></div>
@@ -980,25 +990,16 @@
                             <div><span class="comment"># 启动</span></div>
                             <div><span class="cmd">fakegps</span> gui</div>
                         </div>
-                        <div id="panel-brew" class="code-panel">
-                            <div><span class="comment"># 添加 tap</span></div>
-                            <div><span class="cmd">brew</span> tap sixzjd/fakegps</div>
+                        <div id="panel-github" class="code-panel">
+                            <div><span class="comment"># 克隆源码</span></div>
+                            <div><span class="cmd">git</span> clone https://github.com/sixzjd/fakeGPS-for-iPhone.git</div>
+                            <div><span class="cmd">cd</span> fakeGPS-for-iPhone</div>
                             <div>&nbsp;</div>
-                            <div><span class="comment"># 安装</span></div>
-                            <div><span class="cmd">brew</span> install <span class="str">fakegps</span></div>
+                            <div><span class="comment"># 安装依赖</span></div>
+                            <div><span class="cmd">pip</span> install <span class="flag">-r</span> <span class="str">requirements.txt</span></div>
                             <div>&nbsp;</div>
-                            <div><span class="comment"># 启动</span></div>
-                            <div><span class="cmd">fakegps</span> gui</div>
-                        </div>
-                        <div id="panel-download" class="code-panel">
-                            <div><span class="comment"># 选择你的平台，点击下载</span></div>
-                            <div>&nbsp;</div>
-                            <div>🍎 <a href="https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest/download/FakeGPS-macOS.zip" style="color:var(--accent-light);text-decoration:underline" download>macOS (.app.zip)</a></div>
-                            <div>🪟 <a href="https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest/download/FakeGPS-Windows.zip" style="color:var(--accent-light);text-decoration:underline" download>Windows (.exe.zip)</a></div>
-                            <div>&nbsp;</div>
-                            <div><span class="comment"># Windows 用户注意：</span></div>
-                            <div><span class="comment"># 需安装 Apple Devices 应用</span></div>
-                            <div><span class="comment"># 并以管理员身份运行 tunnel</span></div>
+                            <div><span class="comment"># 启动 GUI</span></div>
+                            <div><span class="cmd">python</span> run_gui.py</div>
                         </div>
                     </div>
                 </div>
@@ -1286,31 +1287,9 @@ function switchTab(tab) {
     document.querySelectorAll('.code-panel').forEach(p => p.classList.remove('active'));
     event.currentTarget.classList.add('active');
     document.getElementById('panel-' + tab).classList.add('active');
-    const titles = { npm: 'Terminal', pip: 'Terminal', brew: 'Terminal', download: 'Downloads' };
+    const titles = { npm: 'Terminal', download: 'Downloads', pip: 'Terminal', github: 'Terminal' };
     document.getElementById('code-title').textContent = titles[tab] || 'Terminal';
 }
-// ==================== PLATFORM-AWARE DOWNLOAD ====================
-(function() {
-    const MAC_URL = 'https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest/download/FakeGPS-macOS.zip';
-    const WIN_URL = 'https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest/download/FakeGPS-Windows.zip';
-    const FALLBACK = 'https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest';
-
-    const ua = navigator.userAgent.toLowerCase();
-    const btn = document.getElementById('heroDownload');
-    const txt = document.getElementById('heroDownloadText');
-
-    if (ua.includes('mac')) {
-        btn.href = MAC_URL;
-        txt.textContent = '下载 macOS 版';
-    } else if (ua.includes('win')) {
-        btn.href = WIN_URL;
-        txt.textContent = '下载 Windows 版';
-    } else {
-        btn.href = FALLBACK;
-        btn.removeAttribute('download');
-        txt.textContent = '前往下载';
-    }
-})();
 </script>
 
 </body>
