@@ -4,7 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fakeGPS - iPhone 虚拟定位工具</title>
-    <meta name="description" content="基于 pymobiledevice3 的 iPhone 虚拟定位工具，支持 GUI 和 CLI，无需越狱。">
+    <meta name="description" content="fakeGPS 是跨平台 iPhone 虚拟定位工具，支持 GUI 地图交互和 CLI 命令行模式。免越狱、无需 Xcode，通过 USB 为 iPhone 设置虚拟 GPS 定位。支持 GPX 轨迹模拟、高德地图 POI 搜索、全球地标预设、GCJ-02 坐标自动转换。">
+    <meta name="keywords" content="虚拟定位,iPhone虚拟定位,假定位,GPS模拟器,iOS定位修改,fakegps,虚拟定位工具,iPhone GPS spoof,virtual location,免越狱定位,macOS虚拟定位,Windows虚拟定位,USB定位,GPX轨迹模拟,高德地图定位">
+    <meta name="author" content="sixzjd">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://www.sixzjd.sbs/">
+
+    <!-- Open Graph / Facebook / WeChat -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.sixzjd.sbs/">
+    <meta property="og:title" content="fakeGPS - iPhone 虚拟定位工具 | 免越狱 GPS 模拟器">
+    <meta property="og:description" content="跨平台 iPhone 虚拟定位工具，支持 GUI 地图交互和 CLI 命令行，免越狱、无需 Xcode，通过 USB 修改 iPhone GPS 定位。支持 GPX 轨迹模拟、高德地图搜索、全球地标预设。">
+    <meta property="og:site_name" content="fakeGPS">
+    <meta property="og:locale" content="zh_CN">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="fakeGPS - iPhone 虚拟定位工具 | 免越狱 GPS 模拟器">
+    <meta name="twitter:description" content="跨平台 iPhone 虚拟定位工具，支持 GUI 地图交互和 CLI 命令行，免越狱、无需 Xcode，通过 USB 修改 iPhone GPS 定位。">
+
+    <!-- Additional SEO -->
+    <meta name="application-name" content="fakeGPS">
+    <meta name="theme-color" content="#0a0908">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📍</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -738,6 +760,87 @@
         ::-webkit-scrollbar-thumb { background: rgba(212, 168, 83, 0.15); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(212, 168, 83, 0.3); }
     </style>
+
+<!-- Structured Data for Search Engines -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "fakeGPS",
+  "alternateName": "iPhone 虚拟定位工具",
+  "description": "跨平台 iPhone 虚拟 GPS 定位工具。免越狱、无需 Xcode，通过 USB 为 iPhone 设置虚拟定位。支持 GUI 地图交互、CLI 命令行、GPX 轨迹模拟。",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "macOS, Windows",
+  "softwareVersion": "6.1.0",
+  "license": "https://opensource.org/licenses/MIT",
+  "author": {
+    "@type": "Person",
+    "name": "sixzjd",
+    "url": "https://github.com/sixzjd"
+  },
+  "downloadUrl": "https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest",
+  "codeRepository": "https://github.com/sixzjd/fakeGPS-for-iPhone",
+  "programmingLanguage": "Python",
+  "releaseNotes": "https://github.com/sixzjd/fakeGPS-for-iPhone/releases",
+  "featureList": [
+    "iPhone GPS 虚拟定位",
+    "GUI 地图交互（高德地图 + Leaflet）",
+    "CLI 命令行交互模式",
+    "GPX 轨迹路线模拟",
+    "GCJ-02 到 WGS-84 坐标自动转换",
+    "全球地标预设（天安门、外滩、埃菲尔铁塔等）",
+    "高德 API 地点搜索",
+    "免越狱、无需 Xcode",
+    "macOS + Windows 跨平台"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "fakeGPS 是什么？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "fakeGPS 是一款跨平台（macOS + Windows）iPhone 虚拟定位工具，可以通过 USB 将 iPhone 的 GPS 定位修改到世界上任意位置，免越狱、无需 Xcode。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "使用 fakeGPS 需要越狱吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不需要。fakeGPS 通过 pymobiledevice3 与 iPhone 通信，完全不需要越狱或安装任何 App 到 iPhone 上。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "fakeGPS 支持哪些 iOS 版本？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "fakeGPS 支持 iOS 16 及以上版本。iOS 17+ 需要额外运行 tunneld 隧道服务。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "如何安装 fakeGPS？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以通过以下方式安装：1) 从 GitHub Releases 下载可执行文件（推荐）；2) npm install -g fakegps；3) pip install fakegps；4) 源码运行。"
+      }
+    }
+  ]
+}
+</script>
+
 </head>
 <body>
 

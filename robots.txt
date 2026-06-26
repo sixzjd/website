@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /aa8272c9b19876ad2e4544d487094271.txt
+Disallow: /f0023b265849c80dc38b6f3206ba7e9e.txt
+
+Sitemap: https://www.sixzjd.sbs/sitemap.xml
+
+# Baidu specific
+User-agent: Baiduspider
+Allow: /
+
+# Google specific
+User-agent: Googlebot
+Allow: /
