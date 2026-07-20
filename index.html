@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>fakeGPS - iPhone 虚拟定位工具</title>
     <meta name="description" content="fakeGPS 是跨平台 iPhone 虚拟定位工具，支持 GUI 地图交互和 CLI 命令行模式。免越狱、无需 Xcode，通过 USB 为 iPhone 设置虚拟 GPS 定位。支持 GPX 轨迹模拟、高德地图 POI 搜索、全球地标预设、GCJ-02 坐标自动转换。">
     <meta name="keywords" content="虚拟定位,iPhone虚拟定位,假定位,GPS模拟器,iOS定位修改,fakegps,虚拟定位工具,iPhone GPS spoof,virtual location,免越狱定位,macOS虚拟定位,Windows虚拟定位,USB定位,GPX轨迹模拟,高德地图定位">
@@ -32,23 +33,23 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #0b0b0b;
-            --surface: rgba(24, 24, 24, 0.78);
-            --surface-solid: #171717;
-            --elevated: #242424;
-            --border: rgba(255, 255, 255, 0.12);
-            --border-hover: rgba(255, 255, 255, 0.32);
-            --text: #f5f5f5;
-            --text-secondary: #a3a3a3;
-            --text-tertiary: #666666;
-            --gold: #f5f5f5;
-            --gold-light: #ffffff;
-            --orange: #c8c8c8;
-            --orange-light: #e5e5e5;
-            --accent: #f5f5f5;
-            --accent-light: #ffffff;
-            --gradient-1: #ffffff;
-            --gradient-2: #8a8a8a;
+            --bg: #0a0908;
+            --surface: rgba(28, 24, 20, 0.55);
+            --surface-solid: #1c1814;
+            --elevated: #2a2420;
+            --border: rgba(212, 168, 83, 0.10);
+            --border-hover: rgba(212, 168, 83, 0.25);
+            --text: #f0ece4;
+            --text-secondary: #8a8279;
+            --text-tertiary: #6a645c;
+            --gold: #d4a853;
+            --gold-light: #f0d48a;
+            --orange: #e8874a;
+            --orange-light: #f2a872;
+            --accent: #d4a853;
+            --accent-light: #f0d48a;
+            --gradient-1: #d4a853;
+            --gradient-2: #e8874a;
             --radius: 16px;
         }
 
@@ -126,7 +127,7 @@
             padding: 16px 40px;
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            background: rgba(11, 11, 11, 0.78);
+            background: rgba(10, 9, 8, 0.6);
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
