@@ -5,12 +5,11 @@ compatibility_date = "2024-01-01"
 [assets]
 directory = "."
 binding = "ASSETS"
+run_worker_first = true
 
-# custom_domain 路由已在 CF Dashboard 配置并持久生效。
-# 注意：routes 若放在 [assets] 之前会被 wrangler 尝试管理，
-# 但当前 API token 无 domains/records 权限会导致 deploy 报错，
-# 故保留在 [assets] 之后（wrangler 忽略并仅输出 warning）。
-routes = [
-  { pattern = "www.sixzjd.sbs", custom_domain = true },
-  { pattern = "sixzjd.sbs", custom_domain = true }
-]
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "fakegps-releases"
+
+# custom_domain 路由 (www.sixzjd.sbs / sixzjd.sbs) 已在 CF Dashboard 配置并持久生效，
+# 无需在 TOML 中声明（声明反而因 token 缺 domains/records 权限导致 deploy 报错）。
