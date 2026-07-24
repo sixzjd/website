@@ -21,9 +21,14 @@ export default {
         return new Response('Not found', { status: 404 });
       }
       const filename = url.pathname.split('/').pop();
+      const contentType = filename.endsWith('.dmg')
+        ? 'application/x-apple-diskimage'
+        : filename.endsWith('.exe')
+          ? 'application/vnd.microsoft.portable-executable'
+          : 'application/zip';
       return new Response(object.body, {
         headers: {
-          'Content-Type': 'application/zip',
+          'Content-Type': contentType,
           'Content-Disposition': `attachment; filename="${filename}"`,
           'Content-Length': String(object.size),
           'Cache-Control': 'public, max-age=86400',
