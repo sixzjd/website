@@ -10,45 +10,35 @@
     <meta name="author" content="sixzjd">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
     <link rel="canonical" href="https://www.sixzjd.sbs/">
-
-    <!-- Open Graph / Facebook / WeChat -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.sixzjd.sbs/">
     <meta property="og:title" content="fakeGPS - iPhone 虚拟定位工具 | 免越狱 GPS 模拟器">
     <meta property="og:description" content="跨平台 iPhone 虚拟定位工具，支持 GUI 地图交互和 CLI 命令行，免越狱、无需 Xcode，通过 USB 修改 iPhone GPS 定位。支持 GPX 轨迹模拟、高德地图搜索、全球地标预设。">
     <meta property="og:site_name" content="fakeGPS">
     <meta property="og:locale" content="zh_CN">
-
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="fakeGPS - iPhone 虚拟定位工具 | 免越狱 GPS 模拟器">
     <meta name="twitter:description" content="跨平台 iPhone 虚拟定位工具，支持 GUI 地图交互和 CLI 命令行，免越狱、无需 Xcode，通过 USB 修改 iPhone GPS 定位。">
-
-    <!-- Additional SEO -->
     <meta name="application-name" content="fakeGPS">
-    <meta name="theme-color" content="#0a0908">
+    <meta name="theme-color" content="#0b0f14">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #0a0908;
-            --surface: rgba(28, 24, 20, 0.55);
-            --surface-solid: #1c1814;
-            --elevated: #2a2420;
-            --border: rgba(212, 168, 83, 0.10);
-            --border-hover: rgba(212, 168, 83, 0.25);
-            --text: #f0ece4;
-            --text-secondary: #8a8279;
-            --text-tertiary: #6a645c;
-            --gold: #d4a853;
-            --gold-light: #f0d48a;
-            --orange: #e8874a;
-            --orange-light: #f2a872;
-            --accent: #d4a853;
-            --accent-light: #f0d48a;
-            --gradient-1: #d4a853;
-            --gradient-2: #e8874a;
+            --bg: #0b0f14;
+            --surface: rgba(18, 25, 33, 0.68);
+            --surface-solid: #121921;
+            --elevated: #1a2631;
+            --border: rgba(173, 216, 230, 0.10);
+            --border-hover: rgba(102, 227, 255, 0.34);
+            --text: #f4f7f9;
+            --text-secondary: #9aa8b5;
+            --text-tertiary: #657381;
+            --gold: #66e3ff;
+            --gold-light: #b8f3ff;
+            --orange: #8b9cff;
+            --orange-light: #b8c2ff;
             --radius: 16px;
         }
 
@@ -61,97 +51,71 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            cursor: none;
         }
 
-        /* Custom Cursor */
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
+        /* ── Topographic Background ── */
+        #topo-canvas {
             position: fixed;
             top: 0; left: 0;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background 0.2s;
-            mix-blend-mode: screen;
-        }
-
-        .cursor-ring {
-            width: 36px;
-            height: 36px;
-            border: 1.5px solid rgba(212, 168, 83, 0.35);
-            border-radius: 50%;
-            position: fixed;
-            top: 0; left: 0;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, border-color 0.3s;
-        }
-
-        .cursor-dot.hover { width: 14px; height: 14px; background: var(--orange); }
-        .cursor-ring.hover { width: 52px; height: 52px; border-color: rgba(232, 135, 74, 0.45); }
-
-        /* Particle Canvas */
-        #particles {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             z-index: 0;
             pointer-events: none;
+            opacity: 0.4;
         }
 
-        /* Cursor Glow Blob */
-        .cursor-glow {
+        /* ── Radar Glow (follows mouse) ── */
+        .radar-glow {
             position: fixed;
-            width: 650px;
-            height: 650px;
+            width: 600px; height: 600px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(212, 168, 83, 0.06) 0%, rgba(232, 135, 74, 0.03) 30%, transparent 70%);
+            background: radial-gradient(circle, rgba(102,227,255,0.06) 0%, rgba(102,227,255,0.018) 40%, transparent 70%);
             pointer-events: none;
             z-index: 1;
             transform: translate(-50%, -50%);
-            will-change: transform;
+            transition: opacity 0.4s;
         }
 
-        /* Navigation */
+        /* ── Navigation ── */
         nav {
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 100;
-            padding: 16px 40px;
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            background: rgba(10, 9, 8, 0.6);
-            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 16px 40px;
+            backdrop-filter: blur(20px) saturate(1.4);
+            background: rgba(11, 15, 20, 0.72);
+            border-bottom: 1px solid var(--border);
         }
 
         .nav-brand {
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 17px;
             font-weight: 600;
-            font-size: 18px;
-            text-decoration: none;
             color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.3px;
         }
 
-        .nav-brand svg { width: 22px; height: 22px; stroke: var(--accent); }
+        .nav-brand svg {
+            width: 20px; height: 20px;
+            stroke: var(--gold);
+        }
 
-        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
 
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 450;
             transition: color 0.25s;
             position: relative;
         }
@@ -160,10 +124,9 @@
             content: '';
             position: absolute;
             bottom: -4px; left: 0;
-            width: 0;
-            height: 1.5px;
-            background: var(--accent);
-            transition: width 0.3s;
+            width: 0; height: 1.5px;
+            background: var(--gold);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .nav-links a:hover { color: var(--text); }
@@ -173,18 +136,49 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 7px 16px;
-            border-radius: 8px;
-            background: rgba(212, 168, 83, 0.05);
+            padding: 7px 14px;
+            border-radius: 20px;
             border: 1px solid var(--border);
-            transition: all 0.25s;
-            backdrop-filter: blur(8px);
+            background: var(--surface);
+            transition: border-color 0.25s, background 0.25s;
         }
 
-        .nav-gh:hover { background: rgba(212, 168, 83, 0.10); border-color: var(--border-hover); }
-        .nav-gh svg { width: 16px; height: 16px; fill: var(--gold-light); }
+        .nav-gh:hover { border-color: var(--border-hover); background: var(--elevated); }
+        .nav-gh::after { display: none !important; }
+        .nav-gh svg { width: 16px; height: 16px; fill: var(--text-secondary); }
 
-        /* Hero */
+        /* ── Sections ── */
+        section { position: relative; z-index: 2; padding: 120px 40px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        .section-label {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+            padding: 4px 12px;
+            border: 1px solid rgba(102, 227, 255, 0.16);
+            border-radius: 20px;
+            background: rgba(102, 227, 255, 0.05);
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 480px;
+        }
+
+        /* ── Hero ── */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -192,559 +186,349 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 120px 24px 80px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 900px;
-            height: 900px;
-            background: radial-gradient(circle, rgba(212, 168, 83, 0.04) 0%, transparent 60%);
-            pointer-events: none;
+            padding-top: 80px;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 18px;
-            border-radius: 100px;
-            background: rgba(212, 168, 83, 0.06);
+            padding: 6px 16px;
+            border-radius: 20px;
             border: 1px solid var(--border);
+            background: var(--surface);
             font-size: 13px;
             color: var(--text-secondary);
-            margin-bottom: 36px;
-            opacity: 0;
-            animation: fadeUp 0.8s ease 0.2s forwards;
-            backdrop-filter: blur(12px);
+            margin-bottom: 32px;
+            backdrop-filter: blur(10px);
         }
 
         .hero-badge span {
-            background: linear-gradient(135deg, var(--accent), var(--orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
+            color: var(--gold);
+            font-weight: 600;
         }
 
         .hero h1 {
-            font-size: clamp(52px, 9vw, 96px);
+            font-size: clamp(42px, 7vw, 72px);
             font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 1.0;
-            margin-bottom: 28px;
-        }
-
-        .hero h1 .char {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(60px) rotateX(-40deg);
-            animation: charIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 24px;
         }
 
         .hero h1 .gradient {
-            background: linear-gradient(135deg, var(--accent), var(--orange), var(--accent-light));
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--orange));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .hero-sub {
-            font-size: clamp(16px, 2.2vw, 20px);
+            font-size: 17px;
             color: var(--text-secondary);
             max-width: 520px;
-            margin-bottom: 52px;
-            opacity: 0;
-            animation: fadeUp 0.8s ease 0.8s forwards;
+            margin-bottom: 40px;
             line-height: 1.8;
         }
 
         .hero-actions {
             display: flex;
-            gap: 16px;
+            gap: 14px;
             flex-wrap: wrap;
             justify-content: center;
-            opacity: 0;
-            animation: fadeUp 0.8s ease 1s forwards;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 15px 32px;
+            gap: 8px;
+            padding: 13px 26px;
             border-radius: 12px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 550;
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: none;
-            border: none;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .btn:hover::before { opacity: 1; }
+        .btn svg { width: 17px; height: 17px; }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--gold), var(--orange));
-            color: #0a0908;
-            box-shadow: 0 4px 30px rgba(212, 168, 83, 0.3);
+            color: #071016;
+            box-shadow: 0 4px 24px rgba(102, 227, 255, 0.18);
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 12px 40px rgba(212, 168, 83, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(102, 227, 255, 0.32);
         }
 
         .btn-secondary {
-            background: rgba(212, 168, 83, 0.06);
+            background: var(--surface);
             color: var(--text);
             border: 1px solid var(--border);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
         }
 
         .btn-secondary:hover {
             border-color: var(--border-hover);
-            transform: translateY(-3px) scale(1.02);
-            background: rgba(212, 168, 83, 0.12);
+            background: var(--elevated);
+            transform: translateY(-2px);
         }
 
-        .btn svg { width: 18px; height: 18px; }
-
-        /* Scroll indicator */
         .scroll-hint {
             position: absolute;
-            bottom: 36px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            opacity: 0;
-            animation: fadeUp 0.8s ease 1.3s forwards;
+            bottom: 40px;
+            animation: float 2.5s ease-in-out infinite;
         }
 
         .scroll-hint svg {
-            width: 20px;
-            height: 20px;
+            width: 22px; height: 22px;
             stroke: var(--text-tertiary);
-            display: block;
-            animation: scrollBounce 2.5s ease infinite;
         }
 
-        @keyframes scrollBounce {
-            0%, 100% { transform: translateY(0); opacity: 0.3; }
-            50% { transform: translateY(8px); opacity: 0.7; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
         }
 
-        /* Sections */
-        section {
-            padding: 120px 24px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .section-label {
-            display: inline-block;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            background: linear-gradient(135deg, var(--accent), var(--orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 16px;
-        }
-
-        .section-title {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            margin-bottom: 16px;
-        }
-
-        .section-desc {
-            font-size: 17px;
-            color: var(--text-secondary);
-            max-width: 520px;
-            line-height: 1.8;
-        }
-
-        .container { max-width: 1140px; margin: 0 auto; }
-
-        /* Features with Hover Reveal */
-        .features {
-            border-top: 1px solid var(--border);
-            background: transparent;
-        }
-
-        .features-header { text-align: center; margin-bottom: 72px; }
+        /* ── Features ── */
+        .features-header { text-align: center; margin-bottom: 56px; }
         .features-header .section-desc { margin: 0 auto; }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 16px;
         }
 
         .feature-card {
             position: relative;
+            padding: 28px 24px;
             border-radius: var(--radius);
-            overflow: hidden;
-            height: 260px;
-            cursor: none;
-        }
-
-        /* Front layer */
-        .card-front {
-            position: absolute;
-            inset: 0;
-            padding: 36px;
-            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
-            backdrop-filter: blur(16px);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 2;
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .card-front .feature-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: rgba(212, 168, 83, 0.08);
-            border: 1px solid rgba(212, 168, 83, 0.12);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .card-front h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-top: 16px;
-        }
-
-        .card-front p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-top: 8px;
-        }
-
-        /* Back reveal layer */
-        .card-back {
-            position: absolute;
-            inset: 0;
-            padding: 36px;
-            background: linear-gradient(135deg, rgba(212, 168, 83, 0.05), rgba(232, 135, 74, 0.03));
-            border: 1px solid var(--border-hover);
-            border-radius: var(--radius);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            z-index: 1;
-            backdrop-filter: blur(20px);
-        }
-
-        .card-back .reveal-label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent);
-            margin-bottom: 16px;
-        }
-
-        .card-back .reveal-text {
-            font-size: 14px;
-            color: var(--text);
-            line-height: 1.8;
-            font-family: 'SF Mono', 'Fira Code', monospace;
-        }
-
-        .card-back .reveal-text .dim { color: var(--text-tertiary); }
-        .card-back .reveal-text .highlight { color: var(--accent-light); }
-        .card-back .reveal-text .accent { color: var(--orange); }
-
-        /* Hover: front slides away to reveal back */
-        .feature-card:hover .card-front {
-            opacity: 0;
-            transform: translateY(-20px) scale(0.96);
-        }
-
-        .feature-card:hover .card-back {
-            border-color: rgba(212, 168, 83, 0.25);
-        }
-
-        /* Card glow on hover */
-        .feature-card::after {
+        .feature-card::before {
             content: '';
             position: absolute;
-            inset: -1px;
-            border-radius: var(--radius);
-            background: linear-gradient(135deg, rgba(212, 168, 83, 0.12), transparent, rgba(232, 135, 74, 0.08));
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(102,227,255,0.3), transparent);
             opacity: 0;
-            transition: opacity 0.4s;
-            z-index: 0;
-            pointer-events: none;
+            transition: opacity 0.35s;
         }
 
-        .feature-card:hover::after { opacity: 1; }
+        .feature-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 60px rgba(102,227,255,0.04);
+        }
 
-        /* Install */
-        .install {
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .card-detail {
+            margin-top: 14px;
+            padding-top: 14px;
             border-top: 1px solid var(--border);
-            background: transparent;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 12px;
+            line-height: 1.8;
+            color: var(--text-tertiary);
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        .feature-card:hover .card-detail {
+            max-height: 120px;
+            opacity: 1;
+        }
+
+        .card-detail .hl { color: var(--gold-light); }
+        .card-detail .dim { color: var(--text-tertiary); }
+        .card-detail .acc { color: var(--orange-light); }
+
+        /* ── Install ── */
         .install-layout {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 72px;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 56px;
             align-items: start;
         }
 
-        .install-tabs { display: flex; flex-direction: column; gap: 8px; margin-top: 36px; }
-
-        .install-tab {
-            padding: 16px 20px;
-            border-radius: 12px;
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 500;
-            cursor: none;
-            text-align: left;
-            transition: all 0.3s;
+        .install-tabs {
             display: flex;
-            align-items: center;
-            gap: 14px;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 28px;
         }
 
-        .install-tab:hover { background: rgba(255, 255, 255, 0.04); color: var(--text); border-color: var(--border); }
+        .install-tab {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: left;
+        }
+
+        .install-tab:hover { border-color: var(--border-hover); color: var(--text); }
 
         .install-tab.active {
-            background: rgba(212, 168, 83, 0.06);
-            border-color: rgba(212, 168, 83, 0.15);
+            border-color: rgba(102, 227, 255, 0.32);
+            background: rgba(102, 227, 255, 0.06);
             color: var(--text);
         }
 
-        .install-tab .tab-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(212, 168, 83, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
+        .install-tab .tab-icon { font-size: 20px; width: 24px; display: inline-flex; justify-content: center; }
+        .install-tab .tab-icon-github svg { width: 20px; height: 20px; }
+        .install-tab strong { font-weight: 600; }
+        .install-tab small { font-size: 12px; color: var(--text-tertiary); }
 
         .code-block {
-            background: var(--surface-solid);
-            border: 1px solid var(--border);
             border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: rgba(20, 17, 14, 0.8);
             overflow: hidden;
+            backdrop-filter: blur(12px);
         }
 
         .code-header {
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 13px;
-            color: var(--text-secondary);
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .code-dots { display: flex; gap: 7px; }
-
-        .code-dots span {
-            width: 11px;
-            height: 11px;
-            border-radius: 50%;
-        }
-
+        .code-dots { display: flex; gap: 6px; }
+        .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
         .code-dots span:nth-child(1) { background: #ff5f57; }
         .code-dots span:nth-child(2) { background: #ffbd2e; }
         .code-dots span:nth-child(3) { background: #28ca41; }
 
-        .code-body {
-            padding: 28px;
-            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-            font-size: 14px;
-            line-height: 2;
-            overflow-x: auto;
-        }
+        .code-header span { font-size: 12px; color: var(--text-tertiary); }
 
-        .code-body .comment { color: var(--text-tertiary); }
-        .code-body .cmd { color: var(--accent-light); }
-        .code-body .flag { color: var(--orange); }
-        .code-body .str { color: #30d158; }
+        .code-body {
+            padding: 20px;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.9;
+            min-height: 200px;
+        }
 
         .code-panel { display: none; }
         .code-panel.active { display: block; }
 
-        /* Presets with Tilt */
-        .presets {
-            border-top: 1px solid var(--border);
-            background: transparent;
-        }
+        .code-body .comment { color: var(--text-tertiary); }
+        .code-body .cmd { color: var(--gold-light); }
+        .code-body .flag { color: var(--orange-light); }
+        .code-body .str { color: #a8cc7c; }
+        .code-body a { color: var(--gold-light); text-decoration: underline; }
 
-        .presets-header { text-align: center; margin-bottom: 56px; }
+        /* ── Presets ── */
+        .presets-header { text-align: center; margin-bottom: 48px; }
         .presets-header .section-desc { margin: 0 auto; }
 
         .presets-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 16px;
+            gap: 14px;
         }
 
         .preset-item {
-            padding: 28px 20px;
-            border-radius: var(--radius);
-            background: var(--surface);
-            border: 1px solid var(--border);
             text-align: center;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            transform-style: preserve-3d;
-            will-change: transform;
-            backdrop-filter: blur(12px);
+            padding: 28px 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .preset-item:hover {
-            border-color: rgba(212, 168, 83, 0.2);
-            box-shadow: 0 20px 60px rgba(212, 168, 83, 0.06);
+            border-color: var(--border-hover);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
         }
 
-        .preset-emoji {
-            font-size: 32px;
-            margin-bottom: 12px;
-            transform: translateZ(30px);
-        }
+        .preset-emoji { font-size: 32px; margin-bottom: 12px; }
+        .preset-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+        .preset-coord { font-size: 11px; color: var(--text-tertiary); font-family: 'SF Mono', monospace; }
 
-        .preset-name {
-            font-size: 14px;
-            font-weight: 600;
-            transform: translateZ(20px);
-        }
-
-        .preset-coord {
-            font-size: 11px;
-            color: var(--text-tertiary);
-            margin-top: 6px;
-            font-family: 'SF Mono', monospace;
-            transform: translateZ(10px);
-        }
-
-        /* Footer */
+        /* ── Footer ── */
         footer {
-            border-top: 1px solid var(--border);
-            padding: 48px 24px;
             position: relative;
             z-index: 2;
-            background: transparent;
+            padding: 32px 40px;
+            border-top: 1px solid var(--border);
         }
 
         .footer-inner {
-            max-width: 1140px;
+            max-width: 1100px;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
         }
 
-        .footer-left { font-size: 14px; color: var(--text-secondary); }
+        .footer-left { font-size: 13px; color: var(--text-tertiary); }
 
-        .footer-links { display: flex; gap: 28px; }
-
+        .footer-links { display: flex; gap: 20px; }
         .footer-links a {
+            font-size: 13px;
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 14px;
-            transition: color 0.25s;
+            transition: color 0.2s;
         }
+        .footer-links a:hover { color: var(--gold); }
 
-        .footer-links a:hover { color: var(--accent-light); }
-
-        /* Reveal animations */
+        /* ── Reveal Animation ── */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(28px);
+            transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes charIn {
-            to { opacity: 1; transform: translateY(0) rotateX(0); }
-        }
-
-        /* Parallax layers */
-        .parallax-orb {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(100px);
-        }
-
-        .orb-1 {
-            width: 450px; height: 450px;
-            background: rgba(212, 168, 83, 0.04);
-            top: 10%; left: -5%;
-        }
-
-        .orb-2 {
-            width: 350px; height: 350px;
-            background: rgba(232, 135, 74, 0.03);
-            top: 40%; right: -8%;
-        }
-
-        .orb-3 {
-            width: 500px; height: 500px;
-            background: rgba(212, 168, 83, 0.03);
-            bottom: -10%; left: 30%;
-        }
-
-        /* Responsive */
+        /* ── Responsive ── */
         @media (max-width: 1024px) {
             .features-grid { grid-template-columns: repeat(2, 1fr); }
             .presets-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
         @media (max-width: 768px) {
-            body { cursor: auto; }
-            .cursor-dot, .cursor-ring, .cursor-glow { display: none; }
             nav { padding: 12px 16px; }
             .nav-links { gap: 16px; }
             .nav-links a:not(.nav-gh) { display: none; }
@@ -752,16 +536,21 @@
             .features-grid { grid-template-columns: 1fr; }
             .install-layout { grid-template-columns: 1fr; gap: 36px; }
             .presets-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+            .radar-glow { display: none; }
         }
 
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: rgba(212, 168, 83, 0.15); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(212, 168, 83, 0.3); }
+        ::-webkit-scrollbar-thumb { background: rgba(102, 227, 255, 0.16); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(102, 227, 255, 0.32); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+            #topo-canvas, .radar-glow { display: none; }
+        }
     </style>
 
-<!-- Structured Data for Search Engines -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -773,31 +562,12 @@
   "operatingSystem": "macOS, Windows",
   "softwareVersion": "6.2.2",
   "license": "https://opensource.org/licenses/MIT",
-  "author": {
-    "@type": "Person",
-    "name": "sixzjd",
-    "url": "https://github.com/sixzjd"
-  },
+  "author": { "@type": "Person", "name": "sixzjd", "url": "https://github.com/sixzjd" },
   "downloadUrl": "https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest",
   "codeRepository": "https://github.com/sixzjd/fakeGPS-for-iPhone",
   "programmingLanguage": "Python",
-  "releaseNotes": "https://github.com/sixzjd/fakeGPS-for-iPhone/releases",
-  "featureList": [
-    "iPhone GPS 虚拟定位",
-    "GUI 地图交互（高德地图 + Leaflet）",
-    "CLI 命令行交互模式",
-    "GPX 轨迹路线模拟",
-    "GCJ-02 到 WGS-84 坐标自动转换",
-    "全球地标预设（天安门、外滩、埃菲尔铁塔等）",
-    "高德 API 地点搜索",
-    "免越狱、无需 Xcode",
-    "macOS + Windows 跨平台"
-  ],
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "CNY"
-  }
+  "featureList": ["iPhone GPS 虚拟定位","GUI 地图交互","CLI 命令行","GPX 轨迹路线模拟","GCJ-02/WGS-84 坐标转换","全球地标预设","免越狱","macOS + Windows 跨平台"],
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" }
 }
 </script>
 <script type="application/ld+json">
@@ -805,59 +575,21 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "fakeGPS 是什么？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "fakeGPS 是一款跨平台（macOS + Windows）iPhone 虚拟定位工具，可以通过 USB 将 iPhone 的 GPS 定位修改到世界上任意位置，免越狱、无需 Xcode。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "使用 fakeGPS 需要越狱吗？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "不需要。fakeGPS 通过 pymobiledevice3 与 iPhone 通信，完全不需要越狱或安装任何 App 到 iPhone 上。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "fakeGPS 支持哪些 iOS 版本？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "fakeGPS 支持 iOS 16 及以上版本。iOS 17+ 需要额外运行 tunneld 隧道服务。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "如何安装 fakeGPS？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "可以通过以下方式安装：1) 官网直接下载 macOS / Windows 可执行文件（推荐）；2) npm install -g fakegps；3) pip install fakegps；4) 源码运行。"
-      }
-    }
+    { "@type": "Question", "name": "fakeGPS 是什么？", "acceptedAnswer": { "@type": "Answer", "text": "fakeGPS 是一款跨平台（macOS + Windows）iPhone 虚拟定位工具，可以通过 USB 将 iPhone 的 GPS 定位修改到世界上任意位置，免越狱、无需 Xcode。" } },
+    { "@type": "Question", "name": "使用 fakeGPS 需要越狱吗？", "acceptedAnswer": { "@type": "Answer", "text": "不需要。fakeGPS 通过 pymobiledevice3 与 iPhone 通信，完全不需要越狱或安装任何 App 到 iPhone 上。" } },
+    { "@type": "Question", "name": "fakeGPS 支持哪些 iOS 版本？", "acceptedAnswer": { "@type": "Answer", "text": "fakeGPS 支持 iOS 16 及以上版本。iOS 17+ 需要额外运行 tunneld 隧道服务。" } },
+    { "@type": "Question", "name": "如何安装 fakeGPS？", "acceptedAnswer": { "@type": "Answer", "text": "可以通过以下方式安装：1) 官网直接下载 macOS / Windows 可执行文件（推荐）；2) npm install -g fakegps；3) pip install fakegps；4) 源码运行。" } }
   ]
 }
 </script>
-
 </head>
 <body>
 
-<!-- Particle Canvas -->
-<canvas id="particles"></canvas>
+<!-- Topographic Background -->
+<canvas id="topo-canvas"></canvas>
 
-<!-- Cursor Glow -->
-<div class="cursor-glow" id="cursorGlow"></div>
-
-<!-- Custom Cursor -->
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<!-- Parallax Orbs -->
-<div class="parallax-orb orb-1" data-speed="0.02"></div>
-<div class="parallax-orb orb-2" data-speed="0.04"></div>
-<div class="parallax-orb orb-3" data-speed="0.03"></div>
+<!-- Radar Glow -->
+<div class="radar-glow" id="radarGlow"></div>
 
 <!-- Navigation -->
 <nav>
@@ -885,8 +617,8 @@
         <span>v6.2.2</span> 已发布 · MIT 开源协议
     </div>
     <h1>
-        <span class="gradient" id="heroTitle"></span><br>
-        <span id="heroLine2"></span>
+        <span class="gradient">fakeGPS</span><br>
+        <span>iPhone 虚拟定位</span>
     </h1>
     <p class="hero-sub">
         基于 pymobiledevice3，无需越狱，无需 Xcode。<br>
@@ -895,7 +627,7 @@
     <div class="hero-actions">
         <a href="#install" class="btn btn-primary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span id="heroDownloadText">下载</span>
+            下载
         </a>
         <a href="https://github.com/sixzjd/fakeGPS-for-iPhone" target="_blank" class="btn btn-secondary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
@@ -915,115 +647,67 @@
         <div class="features-header reveal">
             <span class="section-label">核心功能</span>
             <h2 class="section-title">为什么选择 fakeGPS</h2>
-            <p class="section-desc">一个工具，覆盖虚拟定位的所有场景。<br>简洁、高效、开源。悬停卡片探索更多。</p>
+            <p class="section-desc">一个工具，覆盖虚拟定位的所有场景。简洁、高效、开源。</p>
         </div>
         <div class="features-grid">
             <div class="feature-card reveal">
-                <div class="card-front">
-                    <div class="feature-icon">🗺️</div>
-                    <div>
-                        <h3>GUI 地图交互</h3>
-                        <p>基于高德地图的可视化界面，直接在地图上点选目标位置。</p>
-                    </div>
-                </div>
-                <div class="card-back">
-                    <div class="reveal-label">交互方式</div>
-                    <div class="reveal-text">
-                        <span class="dim">$</span> <span class="highlight">fakegps</span> gui<br>
-                        <span class="dim">→</span> 打开浏览器地图界面<br>
-                        <span class="dim">→</span> 点击地图选择坐标<br>
-                        <span class="dim">→</span> <span class="accent">自动应用定位</span>
-                    </div>
+                <span class="feature-icon">🗺️</span>
+                <h3>GUI 地图交互</h3>
+                <p>基于高德地图 + OSM 的可视化界面，直接在地图上点选目标位置。</p>
+                <div class="card-detail">
+                    <span class="dim">$</span> <span class="hl">fakegps</span> gui<br>
+                    <span class="dim">→</span> 点击地图选择坐标<br>
+                    <span class="dim">→</span> <span class="acc">自动应用定位</span>
                 </div>
             </div>
             <div class="feature-card reveal">
-                <div class="card-front">
-                    <div class="feature-icon">⌨️</div>
-                    <div>
-                        <h3>CLI 命令行</h3>
-                        <p>完整的 REPL 交互模式，适合自动化脚本和高级用户。</p>
-                    </div>
-                </div>
-                <div class="card-back">
-                    <div class="reveal-label">CLI 示例</div>
-                    <div class="reveal-text">
-                        <span class="dim">$</span> <span class="highlight">fakegps</span> cli<br>
-                        <span class="accent">❯</span> set <span class="highlight">39.9087</span> <span class="highlight">116.3975</span><br>
-                        <span class="dim">✓ Location set</span><br>
-                        <span class="accent">❯</span> move <span class="highlight">--speed 5</span>
-                    </div>
+                <span class="feature-icon">⌨️</span>
+                <h3>CLI 命令行</h3>
+                <p>完整的 REPL 交互模式，适合自动化脚本和高级用户。</p>
+                <div class="card-detail">
+                    <span class="dim">$</span> <span class="hl">fakegps</span> cli<br>
+                    <span class="acc">❯</span> set <span class="hl">39.9087 116.3975</span><br>
+                    <span class="dim">✓ Location set</span>
                 </div>
             </div>
             <div class="feature-card reveal">
-                <div class="card-front">
-                    <div class="feature-icon">🚶</div>
-                    <div>
-                        <h3>GPX 路线模拟</h3>
-                        <p>导入 GPX 文件，模拟步行或驾车路线移动。</p>
-                    </div>
-                </div>
-                <div class="card-back">
-                    <div class="reveal-label">路线模拟</div>
-                    <div class="reveal-text">
-                        <span class="dim">$</span> <span class="highlight">fakegps</span> gpx <span class="accent">route.gpx</span><br>
-                        <span class="dim">→</span> 解析 GPX 航点数据<br>
-                        <span class="dim">→</span> 自动坐标插值<br>
-                        <span class="dim">→</span> <span class="accent">模拟真实移动轨迹</span>
-                    </div>
+                <span class="feature-icon">🚶</span>
+                <h3>GPX 路线模拟</h3>
+                <p>导入 GPX 文件，按真实速度模拟步行或驾车路线移动。</p>
+                <div class="card-detail">
+                    <span class="dim">$</span> <span class="hl">fakegps</span> play <span class="acc">route.gpx</span><br>
+                    <span class="dim">→</span> 按距离÷速度定时<br>
+                    <span class="dim">→</span> <span class="acc">模拟真实移动轨迹</span>
                 </div>
             </div>
             <div class="feature-card reveal">
-                <div class="card-front">
-                    <div class="feature-icon">🔄</div>
-                    <div>
-                        <h3>坐标系自动转换</h3>
-                        <p>内置 GCJ-02 与 WGS-84 坐标系互转，定位零偏差。</p>
-                    </div>
-                </div>
-                <div class="card-back">
-                    <div class="reveal-label">坐标转换</div>
-                    <div class="reveal-text">
-                        <span class="highlight">GCJ-02</span> <span class="dim">⇄</span> <span class="highlight">WGS-84</span><br><br>
-                        <span class="dim">高德地图</span> <span class="accent">→</span> GCJ-02<br>
-                        <span class="dim">GPS 原始</span> <span class="accent">→</span> WGS-84<br>
-                        <span class="dim">自动检测 &</span> <span class="accent">无缝转换</span>
-                    </div>
+                <span class="feature-icon">🔄</span>
+                <h3>坐标系自动转换</h3>
+                <p>内置 GCJ-02 与 WGS-84 坐标系互转，中国境外自动切换 OSM。</p>
+                <div class="card-detail">
+                    <span class="hl">GCJ-02</span> <span class="dim">⇄</span> <span class="hl">WGS-84</span><br>
+                    <span class="dim">中国境内 → 高德瓦片</span><br>
+                    <span class="dim">国际区域 →</span> <span class="acc">OSM 瓦片</span>
                 </div>
             </div>
             <div class="feature-card reveal">
-                <div class="card-front">
-                    <div class="feature-icon">📍</div>
-                    <div>
-                        <h3>全球地标预设</h3>
-                        <p>内置天安门、埃菲尔铁塔等全球热门地标，一键定位。</p>
-                    </div>
-                </div>
-                <div class="card-back">
-                    <div class="reveal-label">预设列表</div>
-                    <div class="reveal-text">
-                        <span class="highlight">tiananmen</span> <span class="dim">.....</span> 39.91°N<br>
-                        <span class="highlight">eiffel</span> <span class="dim">........</span> 48.86°N<br>
-                        <span class="highlight">times_square</span> <span class="dim">..</span> 40.76°N<br>
-                        <span class="highlight">tokyo_tower</span> <span class="dim">...</span> 35.66°N
-                    </div>
+                <span class="feature-icon">📍</span>
+                <h3>全球地标预设</h3>
+                <p>内置天安门、埃菲尔铁塔等全球热门地标，一键定位。</p>
+                <div class="card-detail">
+                    <span class="hl">tiananmen</span> <span class="dim">...</span> 39.91°N<br>
+                    <span class="hl">eiffel</span> <span class="dim">......</span> 48.86°N<br>
+                    <span class="hl">times_sq</span> <span class="dim">....</span> 40.76°N
                 </div>
             </div>
             <div class="feature-card reveal">
-                <div class="card-front">
-                    <div class="feature-icon">📦</div>
-                    <div>
-                        <h3>多种安装方式</h3>
-                        <p>npm、pip、Homebrew 安装，也提供打包好的可执行文件。</p>
-                    </div>
-                </div>
-                <div class="card-back">
-                    <div class="reveal-label">安装渠道</div>
-                    <div class="reveal-text">
-                        <span class="accent">npm</span> <span class="dim">i -g</span> <span class="highlight">fakegps</span><br>
-                        <span class="accent">pip</span> <span class="dim">install</span> <span class="highlight">fakegps</span><br>
-                        <span class="accent">brew</span> <span class="dim">install</span> <span class="highlight">fakegps</span><br>
-                        <span class="dim">+ .dmg / .exe 下载</span>
-                    </div>
+                <span class="feature-icon">📦</span>
+                <h3>多种安装方式</h3>
+                <p>npm、pip、Homebrew 安装，也提供打包好的可执行文件。</p>
+                <div class="card-detail">
+                    <span class="acc">npm</span> <span class="dim">i -g</span> <span class="hl">fakegps</span><br>
+                    <span class="acc">brew</span> <span class="dim">install</span> <span class="hl">fakegps</span><br>
+                    <span class="dim">+ .app / .exe 下载</span>
                 </div>
             </div>
         </div>
@@ -1041,19 +725,19 @@
                 <div class="install-tabs">
                     <button class="install-tab" onclick="switchTab('npm')">
                         <span class="tab-icon">📦</span>
-                        <div><strong>npm</strong><br><small style="color:var(--text-secondary)">跨平台</small></div>
+                        <div><strong>npm</strong><br><small>跨平台</small></div>
                     </button>
                     <button class="install-tab active" onclick="switchTab('download')">
                         <span class="tab-icon">💾</span>
-                        <div><strong>直接下载</strong><br><small style="color:var(--text-secondary)">推荐 · macOS / Windows</small></div>
+                        <div><strong>直接下载（推荐）</strong><br><small>macOS / Windows</small></div>
                     </button>
                     <button class="install-tab" onclick="switchTab('pip')">
                         <span class="tab-icon">🐍</span>
-                        <div><strong>pip</strong><br><small style="color:var(--text-secondary)">Python 用户</small></div>
+                        <div><strong>pip</strong><br><small>Python 用户</small></div>
                     </button>
                     <button class="install-tab" onclick="switchTab('github')">
-                        <span class="tab-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="vertical-align:middle"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></span>
-                        <div><strong>GitHub</strong><br><small style="color:var(--text-secondary)">源码运行</small></div>
+                        <span class="tab-icon tab-icon-github" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.04c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.74.08-.74 1.2.09 1.84 1.23 1.84 1.23 1.07 1.84 2.8 1.31 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.34-5.47-5.94 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .3Z"/></svg></span>
+                        <div><strong>GitHub</strong><br><small>源码运行</small></div>
                     </button>
                 </div>
             </div>
@@ -1070,20 +754,16 @@
                             <div>&nbsp;</div>
                             <div><span class="comment"># 首次运行自动下载对应平台二进制</span></div>
                             <div><span class="cmd">fakegps</span></div>
-                            <div>&nbsp;</div>
-                            <div><span class="comment"># macOS 启动 .app · Windows 启动 .exe</span></div>
                         </div>
                         <div id="panel-download" class="code-panel active">
                             <div><span class="comment"># 选择你的平台，点击下载</span></div>
                             <div>&nbsp;</div>
-                            <div>🍎 <a href="/dl/FakeGPS-macOS.zip" style="color:var(--accent-light);text-decoration:underline" download>macOS (.app)</a></div>
-                            <div>🪟 <a href="/dl/FakeGPS-Windows.zip" style="color:var(--accent-light);text-decoration:underline" download>Windows (.exe)</a></div>
+                            <div>🍎 <a href="/dl/FakeGPS-macOS.zip" download>macOS (.app)</a></div>
+                            <div>🪟 <a href="/dl/FakeGPS-Windows.zip" download>Windows (.exe)</a></div>
                             <div>&nbsp;</div>
-                            <div><span class="comment"># 备用下载：<a href="https://gh-proxy.com/https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest/download/FakeGPS-macOS.zip" style="color:var(--accent-light);text-decoration:underline" download>macOS 镜像 (.app)</a> | <a href="https://gh-proxy.com/https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest/download/FakeGPS-Windows.zip" style="color:var(--accent-light);text-decoration:underline" download>Windows 镜像 (.exe)</a></span></div>
+                            <div><span class="comment"># 备用：<a href="https://gh-proxy.com/https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest/download/FakeGPS-macOS.zip" download>macOS 镜像</a> | <a href="https://gh-proxy.com/https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest/download/FakeGPS-Windows.zip" download>Windows 镜像</a></span></div>
                             <div>&nbsp;</div>
-                            <div><span class="comment"># Windows 用户注意：</span></div>
-                            <div><span class="comment"># 需安装 Apple Devices 应用</span></div>
-                            <div><span class="comment"># 并以管理员身份运行 tunnel</span></div>
+                            <div><span class="comment"># Windows 需安装 Apple Devices 并以管理员运行</span></div>
                         </div>
                         <div id="panel-pip" class="code-panel">
                             <div><span class="comment"># 安装核心包</span></div>
@@ -1100,10 +780,8 @@
                             <div><span class="cmd">git</span> clone https://github.com/sixzjd/fakeGPS-for-iPhone.git</div>
                             <div><span class="cmd">cd</span> fakeGPS-for-iPhone</div>
                             <div>&nbsp;</div>
-                            <div><span class="comment"># 安装依赖</span></div>
+                            <div><span class="comment"># 安装依赖 & 启动</span></div>
                             <div><span class="cmd">pip</span> install <span class="flag">-r</span> <span class="str">requirements.txt</span></div>
-                            <div>&nbsp;</div>
-                            <div><span class="comment"># 启动 GUI</span></div>
                             <div><span class="cmd">python</span> run_gui.py</div>
                         </div>
                     </div>
@@ -1122,27 +800,27 @@
             <p class="section-desc">内置世界各地知名地标坐标，开箱即用。</p>
         </div>
         <div class="presets-grid">
-            <div class="preset-item reveal" data-tilt>
+            <div class="preset-item reveal">
                 <div class="preset-emoji">🇨🇳</div>
                 <div class="preset-name">天安门广场</div>
-                <div class="preset-coord">39.9087°N 116.3975°E</div>
+                <div class="preset-coord">39.9075°N 116.3914°E</div>
             </div>
-            <div class="preset-item reveal" data-tilt>
+            <div class="preset-item reveal">
                 <div class="preset-emoji">🇫🇷</div>
                 <div class="preset-name">埃菲尔铁塔</div>
                 <div class="preset-coord">48.8584°N 2.2945°E</div>
             </div>
-            <div class="preset-item reveal" data-tilt>
+            <div class="preset-item reveal">
                 <div class="preset-emoji">🗽</div>
                 <div class="preset-name">时代广场</div>
                 <div class="preset-coord">40.7580°N 73.9855°W</div>
             </div>
-            <div class="preset-item reveal" data-tilt>
+            <div class="preset-item reveal">
                 <div class="preset-emoji">🗼</div>
                 <div class="preset-name">东京塔</div>
                 <div class="preset-coord">35.6586°N 139.7454°E</div>
             </div>
-            <div class="preset-item reveal" data-tilt>
+            <div class="preset-item reveal">
                 <div class="preset-emoji">🎡</div>
                 <div class="preset-name">伦敦眼</div>
                 <div class="preset-coord">51.5033°N 0.1196°W</div>
@@ -1154,9 +832,7 @@
 <!-- Footer -->
 <footer>
     <div class="footer-inner">
-        <div class="footer-left">
-            &copy; 2026 sixzjd · 仅供学习和研究使用
-        </div>
+        <div class="footer-left">&copy; 2026 sixzjd · 仅供学习和研究使用</div>
         <div class="footer-links">
             <a href="https://github.com/sixzjd/fakeGPS-for-iPhone" target="_blank">GitHub</a>
             <a href="https://github.com/sixzjd/fakeGPS-for-iPhone/releases" target="_blank">Releases</a>
@@ -1167,15 +843,10 @@
 </footer>
 
 <script>
-// ==================== PARTICLE SYSTEM ====================
-const canvas = document.getElementById('particles');
+// ==================== TOPOGRAPHIC CONTOUR BACKGROUND ====================
+const canvas = document.getElementById('topo-canvas');
 const ctx = canvas.getContext('2d');
-let W, H;
-let mouseX = -1000, mouseY = -1000;
-let scrollY = 0, lastScrollY = 0, scrollVel = 0;
-const PARTICLE_COUNT = 130;
-const MOUSE_RADIUS = 180;
-const particles = [];
+let W, H, time = 0;
 
 function resize() {
     W = canvas.width = window.innerWidth;
@@ -1184,218 +855,110 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-class Particle {
-    constructor() {
-        this.reset();
-    }
-    reset() {
-        this.x = Math.random() * W;
-        this.y = Math.random() * H;
-        this.baseX = this.x;
-        this.baseY = this.y;
-        this.size = Math.random() * 1.6 + 0.3;
-        this.vx = (Math.random() - 0.5) * 0.12;
-        this.vy = (Math.random() - 0.5) * 0.12;
-        // Gold family particles
-        const rand = Math.random();
-        if (rand < 0.5) {
-            // Gold
-            this.r = 212; this.g = 168; this.b = 83;
-        } else if (rand < 0.75) {
-            // Light gold
-            this.r = 240; this.g = 212; this.b = 138;
-        } else if (rand < 0.9) {
-            // Orange
-            this.r = 232; this.g = 135; this.b = 74;
-        } else {
-            // Warm white (dim stars)
-            this.r = 240; this.g = 236; this.b = 228;
-        }
-        this.alpha = Math.random() * 0.45 + 0.1;
-        this.pulseSpeed = Math.random() * 0.02 + 0.005;
-        this.pulsePhase = Math.random() * Math.PI * 2;
-    }
-    update(time) {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.y += scrollVel * 0.08;
+// Simplex-like noise for contour lines
+function noise(x, y, t) {
+    return Math.sin(x * 0.8 + t) * Math.cos(y * 0.6 + t * 0.7) * 0.5
+         + Math.sin(x * 0.3 - t * 0.5) * Math.cos(y * 1.1 + t * 0.3) * 0.3
+         + Math.sin((x + y) * 0.5 + t * 0.4) * 0.2;
+}
 
-        // Mouse repulsion
-        const dx = this.x - mouseX;
-        const dy = this.y - mouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < MOUSE_RADIUS) {
-            const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
-            const angle = Math.atan2(dy, dx);
-            this.x += Math.cos(angle) * force * 3;
-            this.y += Math.sin(angle) * force * 3;
-        }
+function drawContours() {
+    ctx.clearRect(0, 0, W, H);
+    const step = 32;
+    const levels = 8;
 
-        this.x += (this.baseX - this.x) * 0.002;
-        this.y += (this.baseY - this.y) * 0.002;
-
-        if (this.x < -10) this.x = W + 10;
-        if (this.x > W + 10) this.x = -10;
-        if (this.y < -10) { this.y = H + 10; this.baseY = H + 10; }
-        if (this.y > H + 10) { this.y = -10; this.baseY = -10; }
-
-        this.currentAlpha = this.alpha + Math.sin(time * this.pulseSpeed + this.pulsePhase) * 0.1;
-    }
-    draw() {
+    for (let level = 0; level < levels; level++) {
+        const threshold = (level / levels) * 2 - 1;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${this.r},${this.g},${this.b},${this.currentAlpha})`;
-        ctx.fill();
-    }
-}
+        let started = false;
 
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push(new Particle());
-}
+        for (let x = 0; x < W + step; x += step) {
+            for (let y = 0; y < H + step; y += step) {
+                const nx = x / W * 4;
+                const ny = y / H * 4;
+                const val = noise(nx, ny, time * 0.15);
 
-function drawConnections() {
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 110) {
-                const alpha = (1 - dist / 110) * 0.05;
-                ctx.beginPath();
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.strokeStyle = `rgba(212, 168, 83, ${alpha})`;
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
+                if (Math.abs(val - threshold) < 0.04) {
+                    if (!started) { ctx.moveTo(x, y); started = true; }
+                    else ctx.lineTo(x, y);
+                }
             }
         }
+
+        const alpha = 0.03 + (level % 3 === 0 ? 0.02 : 0);
+        ctx.strokeStyle = `rgba(102, 227, 255, ${alpha})`;
+        ctx.lineWidth = level % 3 === 0 ? 1 : 0.5;
+        ctx.stroke();
     }
-}
 
-let animTime = 0;
-function animateParticles() {
-    ctx.clearRect(0, 0, W, H);
-    animTime++;
-    particles.forEach(p => { p.update(animTime); p.draw(); });
-    drawConnections();
-    scrollVel *= 0.92;
-    requestAnimationFrame(animateParticles);
-}
-animateParticles();
+    // Draw subtle grid dots (coordinate feel)
+    const dotStep = 80;
+    for (let x = dotStep; x < W; x += dotStep) {
+        for (let y = dotStep; y < H; y += dotStep) {
+            const nx = x / W * 4;
+            const ny = y / H * 4;
+            const val = noise(nx, ny, time * 0.15);
+            const alpha = 0.02 + Math.max(0, val) * 0.03;
+            ctx.beginPath();
+            ctx.arc(x, y, 1, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(102, 227, 255, ${alpha})`;
+            ctx.fill();
+        }
+    }
 
-// ==================== CUSTOM CURSOR ====================
-const cursorDot = document.getElementById('cursorDot');
-const cursorRing = document.getElementById('cursorRing');
-const cursorGlow = document.getElementById('cursorGlow');
-let curX = 0, curY = 0, ringX = 0, ringY = 0, glowX = 0, glowY = 0;
+    time++;
+    requestAnimationFrame(drawContours);
+}
+drawContours();
+
+// ==================== RADAR GLOW (mouse follow) ====================
+const glow = document.getElementById('radarGlow');
+let glowX = W / 2, glowY = H / 2, targetX = glowX, targetY = glowY;
 
 document.addEventListener('mousemove', e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    curX = e.clientX;
-    curY = e.clientY;
-    cursorDot.style.left = curX + 'px';
-    cursorDot.style.top = curY + 'px';
+    targetX = e.clientX;
+    targetY = e.clientY;
 });
 
-function animateCursor() {
-    ringX += (curX - ringX) * 0.12;
-    ringY += (curY - ringY) * 0.12;
-    glowX += (curX - glowX) * 0.06;
-    glowY += (curY - glowY) * 0.06;
-    cursorRing.style.left = ringX + 'px';
-    cursorRing.style.top = ringY + 'px';
-    cursorGlow.style.left = glowX + 'px';
-    cursorGlow.style.top = glowY + 'px';
-    requestAnimationFrame(animateCursor);
+function animateGlow() {
+    glowX += (targetX - glowX) * 0.06;
+    glowY += (targetY - glowY) * 0.06;
+    glow.style.left = glowX + 'px';
+    glow.style.top = glowY + 'px';
+    requestAnimationFrame(animateGlow);
 }
-animateCursor();
-
-document.querySelectorAll('a, button, .feature-card, .preset-item').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        cursorDot.classList.add('hover');
-        cursorRing.classList.add('hover');
-    });
-    el.addEventListener('mouseleave', () => {
-        cursorDot.classList.remove('hover');
-        cursorRing.classList.remove('hover');
-    });
-});
-
-// ==================== SCROLL TRACKING ====================
-window.addEventListener('scroll', () => {
-    scrollY = window.scrollY;
-    scrollVel = scrollY - lastScrollY;
-    lastScrollY = scrollY;
-});
-
-// ==================== PARALLAX ORBS ====================
-const orbs = document.querySelectorAll('.parallax-orb');
-function animateOrbs() {
-    orbs.forEach(orb => {
-        const speed = parseFloat(orb.dataset.speed);
-        const y = -scrollY * speed;
-        const x = Math.sin(scrollY * speed * 0.005) * 30;
-        orb.style.transform = `translate(${x}px, ${y}px)`;
-    });
-    requestAnimationFrame(animateOrbs);
-}
-animateOrbs();
-
-// ==================== 3D TILT ON PRESET CARDS ====================
-document.querySelectorAll('[data-tilt]').forEach(card => {
-    card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = (y - centerY) / centerY * -12;
-        const rotateY = (x - centerX) / centerX * 12;
-        card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
-    });
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)';
-        card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
-    });
-    card.addEventListener('mouseenter', () => {
-        card.style.transition = 'none';
-    });
-});
-
-// ==================== HERO TEXT ANIMATION ====================
-function animateText(el, text, baseDelay) {
-    text.split('').forEach((char, i) => {
-        const span = document.createElement('span');
-        span.className = 'char';
-        span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.animationDelay = (baseDelay + i * 0.04) + 's';
-        el.appendChild(span);
-    });
-}
-animateText(document.getElementById('heroTitle'), 'fakeGPS', 0.3);
-animateText(document.getElementById('heroLine2'), 'iPhone 虚拟定位', 0.7);
+animateGlow();
 
 // ==================== SCROLL REVEAL ====================
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
             setTimeout(() => entry.target.classList.add('visible'), i * 80);
+            observer.unobserve(entry.target);
         }
     });
-}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// ==================== TAB SWITCHING ====================
-function switchTab(tab) {
+// ==================== INSTALL TABS ====================
+function switchTab(name) {
     document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.code-panel').forEach(p => p.classList.remove('active'));
     event.currentTarget.classList.add('active');
-    document.getElementById('panel-' + tab).classList.add('active');
+    document.getElementById('panel-' + name).classList.add('active');
     const titles = { npm: 'Terminal', download: 'Downloads', pip: 'Terminal', github: 'Terminal' };
-    document.getElementById('code-title').textContent = titles[tab] || 'Terminal';
+    document.getElementById('code-title').textContent = titles[name] || 'Terminal';
 }
-</script>
 
+// ==================== SMOOTH ANCHOR SCROLL ====================
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+});
+</script>
 </body>
 </html>
