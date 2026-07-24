@@ -4,10 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0f14">
-  <meta name="description" content="fakeGPS：连接 iPhone，选定位置，立即生效支持地图点选、GPX 轨迹和命令行">
+  <meta name="description" content="fakeGPS 是一款适用于 macOS 和 Windows 的 iPhone 虚拟定位工具。连接 iPhone，选择地点，立即生效，支持地图点选、GPX 轨迹和坐标转换。">
+  <meta name="keywords" content="fakeGPS, Fake GPS, iPhone 虚拟定位, iPhone GPS 模拟, iOS 虚拟定位, GPS spoofing, iPhone location changer, GPX, macOS, Windows">
+  <meta name="author" content="sixzjd">
+  <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="https://www.sixzjd.sbs/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.sixzjd.sbs/">
+  <link rel="alternate" hreflang="en" href="https://www.sixzjd.sbs/?lang=en">
+  <link rel="alternate" hreflang="x-default" href="https://www.sixzjd.sbs/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <title>fakeGPS — 随时随地，准时到达</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="fakeGPS">
+  <meta property="og:title" content="fakeGPS — iPhone 虚拟定位工具">
+  <meta property="og:description" content="连接 iPhone，选择地点，立即生效。支持 macOS、Windows、地图点选与 GPX 轨迹。">
+  <meta property="og:url" content="https://www.sixzjd.sbs/">
+  <meta property="og:image" content="https://www.sixzjd.sbs/og-image.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="fakeGPS — iPhone 虚拟定位工具">
+  <meta name="twitter:description" content="A clean iPhone virtual location tool for macOS and Windows.">
+  <meta name="twitter:image" content="https://www.sixzjd.sbs/og-image.svg">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
@@ -237,7 +253,7 @@
     }
   </style>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"fakeGPS","softwareVersion":"6.2.2","applicationCategory":"UtilitiesApplication","operatingSystem":"macOS, Windows","license":"https://opensource.org/licenses/MIT","downloadUrl":"https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest","codeRepository":"https://github.com/sixzjd/fakeGPS-for-iPhone"}
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"fakeGPS","url":"https://www.sixzjd.sbs/","description":"A clean virtual location tool for iPhone on macOS and Windows.","softwareVersion":"6.2.2","applicationCategory":"UtilitiesApplication","operatingSystem":"macOS, Windows","applicationSubCategory":"GPS spoofing and GPX route playback","featureList":["iPhone virtual location","GPX route playback","AMap and global map sources","GCJ-02 and WGS-84 conversion"],"keywords":"fakeGPS, iPhone virtual location, iPhone GPS simulator, GPS spoofing, GPX","license":"https://opensource.org/licenses/MIT","downloadUrl":"https://github.com/sixzjd/fakeGPS-for-iPhone/releases/latest","codeRepository":"https://github.com/sixzjd/fakeGPS-for-iPhone"}
   </script>
 </head>
 <body>
@@ -264,8 +280,46 @@
   <script>
     const translations = {
       zh: { nav: ['简介','能力','下载'], heroLead: '连接 iPhone，选定位置，立即生效', workflowEyebrow: '从连接到定位', workflowTitle: '仅需三步，即可定位', workflowLead: '连接设备，选定地点，立即出发', steps: [['连接设备','USB 连接，按提示完成信任'],['选定位置','点地图、搜地点，或输入坐标'],['开始定位','设置静态位置，或播放 GPX']], featureEyebrow: '核心能力', featureTitle: '少一点工具感，<br>多一点掌控感。', featureLead: '连接、定位、回放，一路清晰，稳定可控', downloadEyebrow: '开始使用', downloadTitle: '即刻下载', downloadLead: 'Windows 和 macOS 均已支持' },
-      en: { nav: ['Overview','Capabilities','Download'], heroLead: 'Connect your iPhone, choose a location, and apply it instantly', workflowEyebrow: 'From connection to location', workflowTitle: 'Three steps to get moving', workflowLead: 'Connect, choose a place, and start', steps: [['Connect your iPhone','Plug in by USB and trust this computer'],['Choose a location','Click the map, search, or enter coordinates'],['Start locating','Set a fixed point or play a GPX route']], featureEyebrow: 'What it does', featureTitle: 'Less tool, more control.', featureLead: 'Connect, locate, and replay with a clear, steady workflow', downloadEyebrow: 'Get started', downloadTitle: 'Download now', downloadLead: 'Available for Windows and macOS.' }
+      en: { nav: ['Overview','Capabilities','Download'], heroLead: 'Connect, Set, and Apply', workflowEyebrow: 'From connection to location', workflowTitle: 'Three steps to get moving', workflowLead: 'Connect, choose a place, and start', steps: [['Connect your iPhone','Plug in by USB and trust this computer'],['Choose a location','Click the map, search, or enter coordinates'],['Start locating','Set a fixed point or play a GPX route']], featureEyebrow: 'What it does', featureTitle: 'Less tool, more control.', featureLead: 'Connect, locate, and replay with a clear, steady workflow', downloadEyebrow: 'Get started', downloadTitle: 'Download now', downloadLead: 'Available for Windows and macOS.' }
     };
+    const extendedCopy = {
+      zh: {
+        title: ['随时随地','准时到达'], heroActions: ['获取 fakeGPS','查看源码'], meta: [['macOS + Windows','跨平台'],['开源免费','MIT 协议'],['USB 连接','无需越狱']], previewTitle: 'fakeGPS / Location workspace', previewLocation: 'Location active', previewRoute: 'GPX route ready', previewDevice: 'Device connected', skip: '跳到主要内容', navLabel: '主导航', githubLabel: '在 GitHub 查看 fakeGPS 源码',
+        featureCards: [['界面简洁<br>双源切换','高德图层与全球图层双源切换，坐标自动转换'],['GPX 轨迹','按文件速度播放，随时暂停或停止'],['CLI 命令行','命令行启动，脚本自动化'],['全球预设','热门地点，一键到达'],['稳定透明','开源免费，状态清晰可见']], downloadTabs: ['直接下载','npm','GitHub'], binary: ['直接下载，即刻使用','选择系统版本，按提示安装'], npm: ['通过 npm 安装','自动识别平台，首次运行即完成下载'], github: ['从 GitHub 获取源码','适合阅读、修改或自行构建'], downloadNote: '当前版本 v6.2.2<br>开源免费 · 不收集定位数据', options: ['.dmg','安装包'], footer: '© 2026 sixzjd · fakeGPS · MIT License'
+      },
+      en: {
+        title: ['Anywhere, anytime','Always on time'], heroActions: ['Get fakeGPS','View source'], meta: [['macOS + Windows','Cross-platform'],['Open source','MIT licensed'],['USB connection','No jailbreak']], previewTitle: 'fakeGPS / Location workspace', previewLocation: 'Location active', previewRoute: 'GPX route ready', previewDevice: 'Device connected', skip: 'Skip to content', navLabel: 'Main navigation', githubLabel: 'View fakeGPS on GitHub',
+        featureCards: [['Clean interface<br>Dual map sources','Switch between AMap and global maps with automatic coordinate conversion'],['GPX routes','Play at the file speed, with pause and stop controls'],['CLI workflow','Launch from the command line and automate repeat tasks'],['Global presets','Popular destinations, ready in one click'],['Clear and open','Open source, free to use, easy to understand']], downloadTabs: ['Direct download','npm','GitHub'], binary: ['Download and get started','Choose your platform and install'], npm: ['Install with npm','Detects your platform and downloads on first run'], github: ['Get the source on GitHub','Read, modify, or build it yourself'], downloadNote: 'Current version v6.2.2<br>Open source · No location data collected', options: ['.dmg','Installer'], footer: '© 2026 sixzjd · fakeGPS · MIT License'
+      }
+    };
+    function applyExtendedLanguage(lang) {
+      const c = extendedCopy[lang] || extendedCopy.zh;
+      const textNode = (selector, value, last) => { const el = document.querySelector(selector); if (!el) return; const node = last ? el.lastChild : el.firstChild; if (node && node.nodeType === 3) node.nodeValue = value; else el.textContent = value; };
+      const allText = (selector, values) => document.querySelectorAll(selector).forEach((el, i) => { if (values[i] !== undefined) el.textContent = values[i]; });
+      document.querySelector('.skip-link').textContent = c.skip;
+      document.querySelector('nav').setAttribute('aria-label', c.navLabel);
+      document.querySelector('.brand').lastChild.nodeValue = lang === 'en' ? 'FAKEGPS' : 'FAKEGPS';
+      document.querySelector('.nav-github').setAttribute('aria-label', c.githubLabel);
+      allText('.hero-copy h1 span', c.title);
+      textNode('.hero-actions .button-primary', c.heroActions[0]); textNode('.hero-actions .button-ghost', c.heroActions[1]);
+      document.querySelectorAll('.hero-meta > div').forEach((el, i) => { el.querySelector('strong').textContent = c.meta[i][0]; el.lastChild.nodeValue = c.meta[i][1]; });
+      document.querySelector('.preview-title').textContent = c.previewTitle;
+      document.querySelector('.location-card strong').textContent = c.previewLocation;
+      document.querySelector('.route-card strong').textContent = c.previewRoute;
+      document.querySelector('.live-dot').textContent = c.previewDevice;
+      document.querySelector('.route').setAttribute('aria-label', lang === 'en' ? 'Location route on the map' : '地图上的定位路线');
+      document.querySelectorAll('#features .feature h3').forEach((el, i) => el.innerHTML = c.featureCards[i][0]);
+      document.querySelectorAll('#features .feature p').forEach((el, i) => el.textContent = c.featureCards[i][1]);
+      document.querySelectorAll('.download-tab').forEach((el, i) => el.lastChild.nodeValue = c.downloadTabs[i]);
+      document.querySelector('#panel-binary h3').textContent = c.binary[0]; document.querySelector('#panel-binary > p').textContent = c.binary[1];
+      document.querySelector('#panel-npm h3').textContent = c.npm[0]; document.querySelector('#panel-npm > p').textContent = c.npm[1];
+      document.querySelector('#panel-github h3').textContent = c.github[0]; document.querySelector('#panel-github > p').textContent = c.github[1];
+      document.querySelector('.download-note span').innerHTML = c.downloadNote;
+      allText('.download-option small', c.options);
+      document.querySelector('footer .footer-row > div').textContent = c.footer;
+      document.title = lang === 'en' ? 'fakeGPS — iPhone Virtual Location Tool' : 'fakeGPS — 随时随地，准时到达';
+      document.querySelector('meta[name="description"]').setAttribute('content', lang === 'en' ? 'fakeGPS is a clean virtual location tool for iPhone on macOS and Windows. Choose a place, apply it instantly, and play GPX routes.' : 'fakeGPS 是一款适用于 macOS 和 Windows 的 iPhone 虚拟定位工具。连接 iPhone，选择地点，立即生效，支持地图点选、GPX 轨迹和坐标转换。');
+    }
     function applyLanguage(lang) {
       const t = translations[lang] || translations.zh;
       const nav = document.querySelectorAll('.nav-links > a:not(.nav-github)');
@@ -284,11 +338,13 @@
       document.querySelectorAll('.language-switch button').forEach(button => { button.classList.add('active'); button.textContent = lang === 'en' ? 'EN' : 'CN'; });
       document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
       localStorage.setItem('fakegps-language', lang);
+      applyExtendedLanguage(lang);
     }
     document.querySelectorAll('.language-switch button').forEach(button => button.addEventListener('click', () => {
       applyLanguage((localStorage.getItem('fakegps-language') || 'zh') === 'zh' ? 'en' : 'zh');
     }));
-    applyLanguage(localStorage.getItem('fakegps-language') || 'zh');
+    const requestedLanguage = new URLSearchParams(location.search).get('lang');
+    applyLanguage(requestedLanguage === 'en' ? 'en' : (localStorage.getItem('fakegps-language') || 'zh'));
     const canvas = document.getElementById('ambient'), ctx = canvas.getContext('2d'); let cw = 0, ch = 0, points = [];
     function resizeCanvas() { cw = canvas.width = innerWidth * devicePixelRatio; ch = canvas.height = innerHeight * devicePixelRatio; canvas.style.width = innerWidth + 'px'; canvas.style.height = innerHeight + 'px'; ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0); points = Array.from({length: 24}, (_, i) => ({x: (i * 83) % innerWidth, y: (i * 137) % innerHeight, r: 1 + (i % 3) / 2, vx: ((i % 2 ? 1 : -1) * .08), vy: ((i % 3 ? 1 : -1) * .05)})); }
     function paintAmbient() { ctx.clearRect(0,0,innerWidth,innerHeight); points.forEach(p => { p.x += p.vx; p.y += p.vy; if (p.x < -10) p.x = innerWidth + 10; if (p.x > innerWidth + 10) p.x = -10; if (p.y < -10) p.y = innerHeight + 10; if (p.y > innerHeight + 10) p.y = -10; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(112,231,255,.27)'; ctx.fill(); }); requestAnimationFrame(paintAmbient); }

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0f14"/>
+      <stop offset="1" stop-color="#162838"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#70e7ff" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#70e7ff"/>
+      <stop offset="1" stop-color="#a0a9ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" rx="36" fill="url(#bg)"/>
+  <path d="M80 475 C260 365 320 530 500 390 S770 210 1110 290" fill="none" stroke="url(#line)" stroke-width="5"/>
+  <circle cx="80" cy="475" r="12" fill="#0b0f14" stroke="#70e7ff" stroke-width="5"/>
+  <circle cx="1110" cy="290" r="12" fill="#0b0f14" stroke="#70e7ff" stroke-width="5"/>
+  <text x="80" y="180" fill="#70e7ff" font-family="Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="8">IPHONE LOCATION TOOLKIT</text>
+  <text x="80" y="285" fill="#f5f8fa" font-family="Arial, sans-serif" font-size="82" font-weight="800">fakeGPS</text>
+  <text x="80" y="350" fill="#9baab8" font-family="Arial, sans-serif" font-size="32">随时随地 · 准时到达</text>
+</svg>
