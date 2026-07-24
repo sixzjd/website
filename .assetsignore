@@ -3,3 +3,6 @@
 worker.js
 wrangler.toml
 .assetsignore
+design-system/
+.gitignore
+.DS_Store
