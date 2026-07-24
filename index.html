@@ -314,6 +314,8 @@
       document.querySelector('#panel-binary h3').textContent = c.binary[0]; document.querySelector('#panel-binary > p').textContent = c.binary[1];
       document.querySelector('#panel-npm h3').textContent = c.npm[0]; document.querySelector('#panel-npm > p').textContent = c.npm[1];
       document.querySelector('#panel-github h3').textContent = c.github[0]; document.querySelector('#panel-github > p').textContent = c.github[1];
+      document.querySelector('.download-tabs').setAttribute('aria-label', lang === 'en' ? 'Download options' : '安装方式');
+      textNode('#panel-github .button-ghost', lang === 'en' ? 'Open GitHub repository' : '打开 GitHub 仓库');
       document.querySelector('.download-note span').innerHTML = c.downloadNote;
       allText('.download-option small', c.options);
       document.querySelector('footer .footer-row > div').textContent = c.footer;
