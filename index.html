@@ -334,7 +334,7 @@
       document.querySelector('#workflow .eyebrow').textContent = t.workflowEyebrow;
       document.querySelector('#workflow h2').textContent = t.workflowTitle;
       document.querySelector('#workflow .section-head > p').textContent = t.workflowLead;
-      document.querySelectorAll('.step').forEach((step, i) => { step.querySelector('h3').textContent = t.steps[i][0]; step.querySelector('p').textContent = t.steps[i][1]; });
+      document.querySelectorAll('#workflow .step').forEach((step, i) => { step.querySelector('h3').textContent = t.steps[i][0]; step.querySelector('p').textContent = t.steps[i][1]; });
       document.querySelector('#features .eyebrow').textContent = t.featureEyebrow;
       document.querySelector('#features h2').innerHTML = t.featureTitle;
       document.querySelector('#features .section-head > p').textContent = t.featureLead;
