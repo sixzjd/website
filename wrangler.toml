@@ -11,5 +11,5 @@ run_worker_first = true
 binding = "R2"
 bucket_name = "fakegps-releases"
 
-# custom_domain 路由 (www.sixzjd.sbs / sixzjd.sbs) 已在 CF Dashboard 配置并持久生效，
+# custom_domain 路由 (fakegps.sixzjd.sbs) 已在 CF Dashboard 配置并持久生效，
 # 无需在 TOML 中声明（声明反而因 token 缺 domains/records 权限导致 deploy 报错）。
